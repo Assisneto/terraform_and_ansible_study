@@ -17,7 +17,13 @@ resource "aws_instance" "app_server" {
   ami           = "ami-03f8756d29f0b5f21"
   instance_type = "t2.micro"
   key_name      = "terraform-deploy-oregon"
+  user_data     = <<-EOF
+                    #!/bin/bash
+                    cd /home/ubuntu
+                    echo "<h1>Feito com Terraform</h1>" > index.html
+                    nohup busybox httpd -f -p 8080 &
+                    EOF
   tags = {
-    Name = "first instance"
+    Name = "second instance"
   }
 }
