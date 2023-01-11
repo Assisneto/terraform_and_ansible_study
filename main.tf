@@ -16,7 +16,7 @@ provider "aws" {
 resource "aws_instance" "app_server" {
   ami           = "ami-03f8756d29f0b5f21"
   instance_type = "t2.micro"
-
+  key_name      = "terraform-deploy-oregon"
   tags = {
     Name = "first instance"
   }
