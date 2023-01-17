@@ -1,8 +1,18 @@
 - hosts: terraform-ansible
   tasks:
-  - name: criando o arquivo
-    copy:
-      dest: /home/ubuntu/index.html
-      content: <h1>Feito com terraform e ansible de vdd</h1>
-  - name: criando o servidor
-    shell: "nohup busybox httpd -f -p 8080 &"
+  - name: Instalando erlang e elixir
+    apt:
+      pkg:
+      - erlang
+      - elixir
+      update_cache: yes
+    become: yes
+  - name: install build-essential
+    apt:
+      pkg: build-essential
+      update_cache: yes
+    become: yes
+  - name: Install Hex
+    command: mix local.hex --force
+    changed_when: >
+      "Will always run, don't show that it changed" == 1
