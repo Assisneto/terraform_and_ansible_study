@@ -12,7 +12,16 @@
       pkg: build-essential
       update_cache: yes
     become: yes
-  - name: Install Hex
-    command: mix local.hex --force
-    changed_when: >
-      "Will always run, don't show that it changed" == 1
+  - name: install phoenix
+    expect:
+      command: mix archive.install hex phx_new
+      responses:
+        'Are you sure you want to replace it with "phx_new-1.6.15.ez"?' : 'y'
+  - name: create phoenix application
+    expect:
+      command: mix phx.new hello
+      responses:
+        'The directory /home/ubuntu/hello already exists. Are you sure you want to continue?' : 'y'
+        'Fetch and install dependencies?' : 'y'
+  - name: Initialize phoenix server
+    command: ./home/ubuntu/hello; mix phx.server
